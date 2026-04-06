@@ -1,11 +1,9 @@
 # Source URLs
 
-## Tutorial Curricula
+_No sources added yet. Add URLs here with descriptions, or drop files into the appropriate subfolder._
 
-- **Barba — CFD Python: 12 Steps to Navier-Stokes**
-  https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/
-  The classic intro. 12 steps from 1D linear convection to cavity flow. Pure Python, incremental, one concept per step.
-
-- **Gan — Python CFD (20 Steps)**
-  https://drzgan.github.io/Python_CFD/intro.html
-  Extends Barba's 12 steps to 20. Adds JAX/GPU acceleration, implicit solvers, phase-field modeling, Lattice Boltzmann. University of Texas at El Paso.
+<!-- Example:
+- **Author — Title**
+  https://example.com
+  Brief description of what this source covers and who it's for.
+-->

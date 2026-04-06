@@ -1,10 +1,10 @@
-# Socratic CFD Tutor
+# Socrates
 
-An AI agent that teaches CFD through the Socratic method — asking questions, not giving answers. Built on top of existing tutorials (Barba's 12 Steps, Gan's 20 Steps, and any future sources).
+An AI agent that teaches through the Socratic method — asking questions, not giving answers. Built on the [llm-wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), it can ingest any source material and turn it into a structured teaching curriculum.
 
 ## How it works
 
-The tutor maintains two wikis using the [llm-wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f):
+The tutor maintains two wikis:
 
 - **`knowledge/`** — the teaching brain. Concepts, lessons, common mistakes, and cross-references compiled from source material.
 - **`student/`** — your learning history. Mastery levels, session logs, observed patterns. Persists across sessions so the tutor remembers where you left off.
@@ -15,19 +15,23 @@ Source material lives in `sources/` and is never modified by the agent.
 
 ### 1. Add source material
 
-Tutorial URLs are already listed in `sources/urls.md`. To add notebooks or textbook excerpts, drop them into `sources/notebooks/` or `sources/textbooks/`.
+Drop your learning material into the appropriate folder:
+- `sources/urls.md` — links to online tutorials, courses, documentation
+- `sources/notebooks/` — Jupyter notebooks
+- `sources/textbooks/` — textbook excerpts, chapter notes
+- `sources/papers/` — relevant papers
 
 ### 2. Ingest into the knowledge wiki
 
-Ask the tutor to ingest a curriculum:
+Ask the tutor to ingest a source:
 
-> "Ingest Barba's 12 Steps into the knowledge wiki."
+> "Ingest the Python tutorial into the knowledge wiki."
 
 This populates `knowledge/` with lesson pages, concept pages, mistake patterns, and cross-references.
 
 ### 3. Start learning
 
-> "I want to start learning CFD."
+> "I want to start learning."
 
 The tutor checks `student/index.md`, sees you're new, and walks you through picking a curriculum and beginning the first lesson.
 
@@ -48,12 +52,12 @@ If you're brand new, it skips the recap and starts from the beginning.
 
 ### During a session
 
-The tutor follows a loop: **ask → wait → evaluate → respond**. It tracks your phase (physics → discretization → implementation → experimentation) and only advances when you demonstrate understanding — not when you ask to skip ahead.
+The tutor follows a loop: **ask → wait → evaluate → respond**. It tracks your phase within each lesson and only advances when you demonstrate understanding — not when you ask to skip ahead.
 
 You can:
-- Answer with text explanations, math, pseudocode, or Python code
+- Answer with text explanations, math, pseudocode, or code
 - Say "I'm stuck" to get a hint (max 2 hints before it explains)
-- Say "let's experiment" to jump to trying things once your code works
+- Say "let's experiment" to jump to trying things once your understanding is solid
 - Ask "why?" about anything — the tutor loves that
 
 ### Ending a session
@@ -98,8 +102,3 @@ student/                  # Student memory — agent maintained
 AGENTS.md                 # Wiki schema — governs agent behavior
 plan.md                   # Project plan and roadmap
 ```
-
-## Currently supported curricula
-
-- [CFD Python: 12 Steps to Navier-Stokes](https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/) — Lorena Barba
-- [Python CFD: 20 Steps](https://drzgan.github.io/Python_CFD/intro.html) — Zhengtao Gan (extends Barba with JAX, implicit solvers, Lattice Boltzmann)
