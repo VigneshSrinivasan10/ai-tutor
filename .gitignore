@@ -1,4 +1,5 @@
 .socrates-session-active
+.socrates-state
 .claude/settings.local.json
 
 # Session-specific content (generated per user)
@@ -7,11 +8,11 @@ student/mastery/
 student/patterns/
 student/log.md
 student/profile.md
-knowledge/concepts/
-knowledge/lessons/
-knowledge/curricula/
-knowledge/connections/
-knowledge/mistakes/
-knowledge/log.md
-knowledge/index.md
-sources/
+teacher/knowledge/concepts/
+teacher/knowledge/lessons/
+teacher/knowledge/curricula/
+teacher/knowledge/connections/
+teacher/knowledge/mistakes/
+teacher/knowledge/log.md
+teacher/knowledge/index.md
+teacher/sources/

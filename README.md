@@ -8,13 +8,11 @@ An AI agent that teaches through the Socratic method — asking questions, not g
 
 Socrates uses **LLM-wiki** — a pattern where an LLM maintains structured markdown wikis as its persistent memory. Instead of relying on conversation context (which resets each session), the agent reads and writes markdown files with defined schemas. This gives it durable, queryable knowledge that survives across conversations.
 
-The tutor maintains two wikis:
+The project is organized around two actors:
 
-- **`knowledge/`** — the teaching brain. This is the LLM-wiki that stores everything the tutor knows about a subject: concepts, lessons, common mistakes, and cross-references. Each page follows a strict schema (defined in `AGENTS.md`) so the agent can reliably find and update information. The knowledge wiki is domain-agnostic — it structures any subject into teachable units.
+- **`teacher/`** — the teaching side. Contains `knowledge/` (an LLM-wiki of concepts, lessons, mistakes, and cross-references) and `sources/` (immutable reference material). The knowledge wiki is domain-agnostic — it structures any subject into teachable units. Each page follows a strict schema (defined in `teacher/SCHEMA.md`) so the agent can reliably find and update information.
 
-- **`student/`** — your learning history. A second LLM-wiki that tracks everything about you as a learner: current lesson and phase, mastery level per concept, session logs, learning style observations, and recurring patterns. This is what lets the tutor pick up exactly where you left off, adapt its pacing, and avoid re-explaining things you've already mastered.
-
-Source material lives in `sources/` and is never modified by the agent.
+- **`student/`** — the learner side. A state machine that tracks where you are: current lesson and phase, mastery level per concept, session logs, learning style observations, and recurring patterns. This is what lets the tutor pick up exactly where you left off, adapt its pacing, and avoid re-explaining things you've already mastered. See `student/SCHEMA.md` for page formats.
 
 ### From sources to lessons
 
@@ -22,17 +20,17 @@ When you provide learning material (URLs, papers, notebooks) or let the tutor se
 
 1. **Read** the source completely
 2. **Extract** concepts, techniques, common mistakes, and cross-references
-3. **Create wiki pages** — one page per concept (`knowledge/concepts/`), one per lesson (`knowledge/lessons/`), one per mistake pattern (`knowledge/mistakes/`), and synthesis pages for non-obvious connections (`knowledge/connections/`)
-4. **Map the curriculum** — a `knowledge/curricula/` page orders the lessons by difficulty, maps prerequisites, and records what the source covers and where it has gaps
-5. **Index** everything in `knowledge/index.md`
+3. **Create wiki pages** — one page per concept (`teacher/knowledge/concepts/`), one per lesson (`teacher/knowledge/lessons/`), one per mistake pattern (`teacher/knowledge/mistakes/`), and synthesis pages for non-obvious connections (`teacher/knowledge/connections/`)
+4. **Map the curriculum** — a `teacher/knowledge/curricula/` page orders the lessons by difficulty, maps prerequisites, and records what the source covers and where it has gaps
+5. **Index** everything in `teacher/knowledge/index.md`
 
 Each page type has a specific schema. For example, a lesson page includes a teaching strategy, phase transition criteria (what the student must demonstrate to advance), tricky spots, and verification criteria. A concept page includes prerequisite links, common misunderstandings, and Socratic questions for each learning phase. This structure means the tutor doesn't improvise — it has a deliberate plan for every concept it teaches.
 
 Multiple sources on the same topic merge into the same wiki. If two tutorials cover the same concept, the concept page is updated (not duplicated), and the lessons are cross-referenced via `equivalent_lessons`. This lets the tutor draw from the best explanation regardless of which source it came from.
 
-### How the student wiki drives teaching
+### How the student state drives teaching
 
-The student wiki isn't just a log — it actively shapes every interaction:
+The student directory isn't just a log — it actively shapes every interaction:
 
 - **`student/index.md`** tells the tutor exactly where to resume: which lesson, which phase (understanding → application → synthesis), and what question to ask first.
 - **`student/mastery/*.md`** pages track each concept's status (not_seen → introduced → shaky → solid → deep) with evidence. The tutor won't advance past a concept marked "shaky" without re-probing it.
@@ -65,7 +63,7 @@ The tutor asks what you want to learn. Then it:
 1. **Assesses your level** — a short Socratic conversation (3-5 questions) to gauge where you are
 2. **Asks for sources** — you can paste URLs to learn from, or let the tutor find material for you (or both)
 3. **Searches for material** (if needed) — spawns parallel agents to find tutorials, papers, and courses matched to your level
-4. **Ingests into the knowledge wiki** — parallel agents process each source into `knowledge/` (concepts, lessons, mistakes, cross-references)
+4. **Ingests into the knowledge wiki** — parallel agents process each source into `teacher/knowledge/` (concepts, lessons, mistakes, cross-references)
 5. **Builds a curriculum** — orders lessons by difficulty, starting at your level
 6. **Starts teaching** — begins the first lesson in Socratic mode
 
@@ -73,15 +71,15 @@ If you're returning, the tutor reads your history and asks if you want to contin
 
 ### Adding your own sources (optional)
 
-You can also manually add material to `sources/` and ask the tutor to ingest it:
-- `sources/urls.md` — links to online tutorials, courses, documentation
-- `sources/notebooks/` — Jupyter notebooks
-- `sources/textbooks/` — textbook excerpts, chapter notes
-- `sources/papers/` — relevant papers
+You can also manually add material to `teacher/sources/` and ask the tutor to ingest it:
+- `teacher/sources/urls.md` — links to online tutorials, courses, documentation
+- `teacher/sources/notebooks/` — Jupyter notebooks
+- `teacher/sources/textbooks/` — textbook excerpts, chapter notes
+- `teacher/sources/papers/` — relevant papers
 
 ## Sessions
 
-A session is a single conversation with the tutor agent. The tutor uses the `student/` wiki to maintain continuity across sessions.
+A session is a single conversation with the tutor agent. The tutor uses `student/` to maintain continuity across sessions.
 
 ### Starting a session
 
@@ -123,31 +121,34 @@ Start a new conversation. The tutor reads the wiki and picks up exactly where yo
 
 ```
 .claude/
-  commands/socrates.md    # /socrates slash command
-  settings.json           # Stop hook for session auto-save
+  commands/socrates.md      # /socrates slash command
+  hooks/                    # Stop hook for session checkpoints
+  settings.json             # Hook configuration
 
-knowledge/                # Teaching brain — agent maintained (gitignored)
-  index.md                # Master catalog (template committed)
-  log.md                  # Ingest/lint history
-  curricula/              # One page per tutorial curriculum
-  concepts/               # One page per teachable concept
-  lessons/                # One page per lesson — teaching strategy
-  mistakes/               # Common mistake patterns
-  connections/            # Cross-cutting synthesis
+teacher/                    # Teaching side
+  SCHEMA.md                 # Knowledge wiki page formats and workflows
+  knowledge/                # LLM-wiki — agent maintained (gitignored)
+    index.md                # Master catalog
+    log.md                  # Ingest/lint history
+    curricula/              # One page per tutorial curriculum
+    concepts/               # One page per teachable concept
+    lessons/                # One page per lesson — teaching strategy
+    mistakes/               # Common mistake patterns
+    connections/            # Cross-cutting synthesis
+  sources/                  # Immutable — human curated (gitignored)
+    notebooks/              # Tutorial notebooks
+    textbooks/              # Excerpts, chapter notes
+    papers/                 # Relevant papers
+    urls.md                 # Index of online sources
 
-student/                  # Student memory — agent maintained (gitignored)
-  index.md                # Current status snapshot (template committed)
-  log.md                  # Session history
-  profile.md              # Learning style and strengths
-  mastery/                # One page per encountered concept
-  sessions/               # One page per session
-  patterns/               # Recurring observations
+student/                    # Learner side — state machine (gitignored)
+  SCHEMA.md                 # Student page formats and workflows
+  index.md                  # Current status snapshot (template committed)
+  log.md                    # Session history
+  profile.md                # Learning style and strengths
+  mastery/                  # One page per encountered concept
+  sessions/                 # One page per session
+  patterns/                 # Recurring observations
 
-sources/                  # Immutable — human curated (gitignored)
-  notebooks/              # Tutorial notebooks
-  textbooks/              # Excerpts, chapter notes
-  papers/                 # Relevant papers
-  urls.md                 # Index of online sources
-
-AGENTS.md                 # Wiki schema — governs agent behavior
+AGENTS.md                   # Socratic method rules and behavior
 ```
