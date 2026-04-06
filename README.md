@@ -22,27 +22,28 @@ mkdir -p ~/.claude/commands
 cp socrates.md ~/.claude/commands/socrates.md
 ```
 
-### 1. Add source material
+### 1. Start learning
 
-Drop your learning material into the appropriate folder:
+> `/socrates`
+
+The tutor asks what you want to learn. Then it:
+
+1. **Assesses your level** — a short Socratic conversation (3-5 questions) to gauge where you are
+2. **Asks for sources** — you can paste URLs to learn from, or let the tutor find material for you (or both)
+3. **Searches for material** (if needed) — spawns parallel agents to find tutorials, papers, and courses matched to your level
+4. **Ingests into the knowledge wiki** — parallel agents process each source into `knowledge/` (concepts, lessons, mistakes, cross-references)
+5. **Builds a curriculum** — orders lessons by difficulty, starting at your level
+6. **Starts teaching** — begins the first lesson in Socratic mode
+
+If you're returning, the tutor reads your history and asks if you want to continue or learn something new.
+
+### Adding your own sources (optional)
+
+You can also manually add material to `sources/` and ask the tutor to ingest it:
 - `sources/urls.md` — links to online tutorials, courses, documentation
 - `sources/notebooks/` — Jupyter notebooks
 - `sources/textbooks/` — textbook excerpts, chapter notes
 - `sources/papers/` — relevant papers
-
-### 2. Ingest into the knowledge wiki
-
-Ask the tutor to ingest a source:
-
-> "Ingest the Python tutorial into the knowledge wiki."
-
-This populates `knowledge/` with lesson pages, concept pages, mistake patterns, and cross-references.
-
-### 3. Start learning
-
-> "I want to start learning."
-
-The tutor checks `student/index.md`, sees you're new, and walks you through picking a curriculum and beginning the first lesson.
 
 ## Sessions
 
@@ -50,14 +51,14 @@ A session is a single conversation with the tutor agent. The tutor uses the `stu
 
 ### Starting a session
 
-Just start talking to the agent. It will:
+Run `/socrates`. The tutor will:
 
 1. Read `student/index.md` for your current status
 2. Read your most recent session log in `student/sessions/`
 3. Read relevant mastery and pattern pages
-4. Greet you with a recap: *"Last time we were working on X. You had just Y. Ready to pick up?"*
+4. Ask: *"Want to pick up where we left off, or learn something new?"*
 
-If you're brand new, it skips the recap and starts from the beginning.
+If you're brand new, it asks what you want to learn and runs the full assess → search → ingest → teach flow.
 
 ### During a session
 
