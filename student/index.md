@@ -1,11 +1,11 @@
-# Student: (unnamed)
+# Student: <name>
 
 ## Current Status
-- **Curriculum**: not selected
-- **Lesson**: not started
-- **Phase**: —
-- **Last session**: never
-- **Next action**: Choose a curriculum and begin first lesson
+- **Curriculum**: <not started>
+- **Lesson**: <none>
+- **Phase**: <none>
+- **Last session**: <none>
+- **Next action**: Start a new session with /socrates
 
 ## Quick Profile
-_No sessions yet. Profile will be built from interactions._
+<To be filled during first session>

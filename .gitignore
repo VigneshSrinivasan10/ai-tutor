@@ -1,0 +1,17 @@
+.socrates-session-active
+.claude/settings.local.json
+
+# Session-specific content (generated per user)
+student/sessions/
+student/mastery/
+student/patterns/
+student/log.md
+student/profile.md
+knowledge/concepts/
+knowledge/lessons/
+knowledge/curricula/
+knowledge/connections/
+knowledge/mistakes/
+knowledge/log.md
+knowledge/index.md
+sources/

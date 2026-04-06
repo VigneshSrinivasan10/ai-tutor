@@ -1,16 +1,23 @@
 # Knowledge Wiki — Index
 
+<Populated automatically during source ingestion. See AGENTS.md for page formats.>
+
 ## Curricula
-_No curricula ingested yet. Add sources to `sources/` and run ingest._
+
+| ID | Title | Source | Lessons |
+|----|-------|--------|---------|
 
 ## Concepts
-_No concepts ingested yet._
 
-## Lessons
-_No lessons ingested yet._
+| Concept | Topics |
+|---------|--------|
 
 ## Mistakes
-_No mistake patterns catalogued yet._
+
+| ID | Title | Severity |
+|----|-------|----------|
 
 ## Connections
-_No cross-cutting connections yet._
+
+| ID | Title |
+|----|-------|

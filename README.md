@@ -11,18 +11,24 @@ The tutor maintains two wikis:
 
 Source material lives in `sources/` and is never modified by the agent.
 
+All session-specific content (knowledge pages, student data, sources) is gitignored — the repo ships as a clean framework that generates content fresh per user.
+
 ## Getting started
 
-### 0. Set up the `/socrates` command
+### Prerequisites
 
-Copy `socrates.md` into your Claude Code commands directory so you can launch the tutor with `/socrates`:
+- [Claude Code](https://claude.ai/claude-code) CLI
+
+### 1. Clone and start
 
 ```bash
-mkdir -p ~/.claude/commands
-cp socrates.md ~/.claude/commands/socrates.md
+git clone <repo-url>
+cd socrates
 ```
 
-### 1. Start learning
+The `/socrates` command is available automatically via `.claude/commands/socrates.md` — no manual setup needed.
+
+### 2. Start learning
 
 > `/socrates`
 
@@ -79,6 +85,8 @@ Say goodbye, or just stop. The tutor will:
 3. Update mastery pages for any concepts whose status changed
 4. Log any new learning patterns it noticed
 
+If you close Claude without saying goodbye, a **Stop hook** detects the active session and blocks exit until the session is saved — so your progress is never lost.
+
 ### Continuing next time
 
 Start a new conversation. The tutor reads the wiki and picks up exactly where you left off. You don't need to re-explain anything.
@@ -86,14 +94,12 @@ Start a new conversation. The tutor reads the wiki and picks up exactly where yo
 ## Project structure
 
 ```
-sources/                  # Immutable — human curated
-  notebooks/              # Tutorial notebooks
-  textbooks/              # Excerpts, chapter notes
-  papers/                 # Relevant papers
-  urls.md                 # Index of online sources
+.claude/
+  commands/socrates.md    # /socrates slash command
+  settings.json           # Stop hook for session auto-save
 
-knowledge/                # Teaching brain — agent maintained
-  index.md                # Master catalog
+knowledge/                # Teaching brain — agent maintained (gitignored)
+  index.md                # Master catalog (template committed)
   log.md                  # Ingest/lint history
   curricula/              # One page per tutorial curriculum
   concepts/               # One page per teachable concept
@@ -101,14 +107,19 @@ knowledge/                # Teaching brain — agent maintained
   mistakes/               # Common mistake patterns
   connections/            # Cross-cutting synthesis
 
-student/                  # Student memory — agent maintained
-  index.md                # Current status snapshot
+student/                  # Student memory — agent maintained (gitignored)
+  index.md                # Current status snapshot (template committed)
   log.md                  # Session history
   profile.md              # Learning style and strengths
   mastery/                # One page per encountered concept
   sessions/               # One page per session
   patterns/               # Recurring observations
 
+sources/                  # Immutable — human curated (gitignored)
+  notebooks/              # Tutorial notebooks
+  textbooks/              # Excerpts, chapter notes
+  papers/                 # Relevant papers
+  urls.md                 # Index of online sources
+
 AGENTS.md                 # Wiki schema — governs agent behavior
-plan.md                   # Project plan and roadmap
 ```

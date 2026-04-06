@@ -273,7 +273,7 @@ When a session begins:
 
 ### Session end workflow
 
-When a session ends (student says goodbye, or conversation closes):
+When a session ends (student says goodbye, wants to stop, or conversation closes):
 
 1. Write `student/sessions/YYYY-MM-DD.md`
 2. Update `student/index.md` with current status and next action
@@ -281,6 +281,8 @@ When a session ends (student says goodbye, or conversation closes):
 4. If you noticed a recurring pattern, create or update `student/patterns/<name>.md`
 5. If profile.md needs updating (new insight about learning style), update it
 6. Append to `student/log.md`: date, lesson, phases covered, summary line
+7. Say goodbye with a brief summary of what was covered and what comes next
+8. **Exit Socratic tutor mode.** After all wiki updates are complete, return to normal Claude Code mode. Do not continue asking Socratic questions or staying in teaching mode.
 
 ---
 
