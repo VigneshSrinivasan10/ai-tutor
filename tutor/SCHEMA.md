@@ -1,11 +1,11 @@
-# Teacher Schema
+# Tutor Schema
 
-The teacher directory contains two things: **knowledge** (the LLM-wiki that stores structured teaching material) and **sources** (immutable reference material provided by the student or found via search).
+The tutor directory contains two things: **knowledge** (the LLM-wiki that stores structured teaching material) and **sources** (immutable reference material provided by the student or found via search).
 
 ## Directory layout
 
 ```
-teacher/
+tutor/
   SCHEMA.md                     # This file
   knowledge/                    # LLM-wiki — agent maintained
     index.md                    # Master catalog of all knowledge pages
@@ -145,16 +145,16 @@ what question reveals the link to a student>
 
 ## Ingest workflow
 
-When a new source is added to `teacher/sources/`:
+When a new source is added to `tutor/sources/`:
 
 1. Read the source completely
 2. Identify concepts, techniques, common mistakes, and cross-references
-3. For each concept: create or update `teacher/knowledge/concepts/<name>.md`
-4. For each lesson: create or update `teacher/knowledge/lessons/<curriculum>_<NN>.md` and `teacher/knowledge/curricula/<name>.md`
-5. For each mistake pattern: create or update `teacher/knowledge/mistakes/<name>.md`
-6. If two or more concepts connect non-obviously: create `teacher/knowledge/connections/<name>.md`
-7. Update `teacher/knowledge/index.md` with new/changed pages
-8. Append to `teacher/knowledge/log.md`: date, source, pages created/updated
+3. For each concept: create or update `tutor/knowledge/concepts/<name>.md`
+4. For each lesson: create or update `tutor/knowledge/lessons/<curriculum>_<NN>.md` and `tutor/knowledge/curricula/<name>.md`
+5. For each mistake pattern: create or update `tutor/knowledge/mistakes/<name>.md`
+6. If two or more concepts connect non-obviously: create `tutor/knowledge/connections/<name>.md`
+7. Update `tutor/knowledge/index.md` with new/changed pages
+8. Append to `tutor/knowledge/log.md`: date, source, pages created/updated
 
 ## Lint workflow
 

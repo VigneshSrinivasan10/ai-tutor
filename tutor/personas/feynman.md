@@ -1,6 +1,6 @@
 ---
 persona: feynman
-name: Feynman-style Teacher
+name: Feynman-style Tutor
 style: explanation-driven with analogies
 tone: enthusiastic, informal, playful
 ---

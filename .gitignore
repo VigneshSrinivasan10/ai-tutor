@@ -1,5 +1,5 @@
-.teacher-session-active
-.teacher-state
+.tutor-session-active
+.tutor-state
 .claude/settings.local.json
 
 # Session-specific content (generated per user)
@@ -8,11 +8,11 @@ student/mastery/
 student/patterns/
 student/log.md
 student/profile.md
-teacher/knowledge/concepts/
-teacher/knowledge/lessons/
-teacher/knowledge/curricula/
-teacher/knowledge/connections/
-teacher/knowledge/mistakes/
-teacher/knowledge/log.md
-teacher/knowledge/index.md
-teacher/sources/
+tutor/knowledge/concepts/
+tutor/knowledge/lessons/
+tutor/knowledge/curricula/
+tutor/knowledge/connections/
+tutor/knowledge/mistakes/
+tutor/knowledge/log.md
+tutor/knowledge/index.md
+tutor/sources/
