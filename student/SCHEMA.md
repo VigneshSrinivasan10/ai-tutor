@@ -20,24 +20,43 @@ student/
 ```markdown
 # Student: <name>
 
-## Current Status
-- **Curriculum**: <which curriculum they're following>
+## Active Curriculums
+### <curriculum-name>
 - **Lesson**: <current lesson id>
 - **Phase**: <understanding | application | synthesis>
 - **Last session**: <date>
 - **Next action**: <what to do when session resumes>
+- **Status**: <active | paused | completed>
+
+### <curriculum-name-2>
+- **Lesson**: ...
+- **Phase**: ...
+- **Last session**: ...
+- **Next action**: ...
+- **Status**: ...
+
+## Last Active
+<curriculum-name>
 
 ## Quick Profile
 <2-3 sentences: learning style, strengths, current struggles>
 ```
 
-Update at the end of every session and at every phase/lesson transition.
+Each curriculum the student is studying gets its own H3 block under `## Active Curriculums`. The `## Last Active` line records which curriculum was most recently worked on — used as the default suggestion at session start.
+
+Status values:
+- **active**: currently being studied
+- **paused**: student set aside intentionally (hidden from default curriculum selector, but mentioned as resumable)
+- **completed**: all lessons finished
+
+Update at the end of every session and at every phase/lesson transition. When updating, modify only the H3 block for the curriculum that was active during the session, and update `## Last Active`.
 
 ## sessions/YYYY-MM-DD.md
 
 ```markdown
 ---
 date: <YYYY-MM-DD>
+curriculum: <curriculum-name>
 lesson: <lesson id>
 phases_covered: [<phase>, ...]
 duration_approx: <short | medium | long>
@@ -97,16 +116,20 @@ Only create pattern pages when you see the same thing happen 2+ times across ses
 ### Session start
 
 1. Read `student/index.md` for current status
-2. Read the most recent `student/sessions/*.md` for pickup context
-3. Read relevant `student/mastery/*.md` pages for the current lesson's concepts
-4. Read relevant `student/patterns/*.md` if they might affect this session
-5. Greet the student with a brief recap
+2. Identify the `## Last Active` curriculum as the default
+3. If multiple active curriculums exist, present a curriculum selector (see routing logic in `/tutor` command)
+4. Read the most recent `student/sessions/*.md` for pickup context (filter by active curriculum if helpful)
+5. Read relevant `student/mastery/*.md` pages for the current lesson's concepts
+6. Read relevant `student/patterns/*.md` if they might affect this session
+7. Greet the student with a brief recap of the selected curriculum
 
 ### Session end
 
-1. Write `student/sessions/YYYY-MM-DD.md`
-2. Update `student/index.md` with current status and next action
-3. Update any `student/mastery/*.md` pages where status changed
-4. If you noticed a recurring pattern, create or update `student/patterns/<name>.md`
-5. If profile.md needs updating (new insight about learning style), update it
-6. Append to `student/log.md`: date, lesson, phases covered, summary line
+1. Write `student/sessions/YYYY-MM-DD.md` with `curriculum` in frontmatter
+2. Update the correct curriculum's H3 block in `student/index.md` with current status and next action
+3. Update `## Last Active` in `student/index.md` to the curriculum worked on this session
+4. Update any `student/mastery/*.md` pages where status changed
+5. If you noticed a recurring pattern, create or update `student/patterns/<name>.md`
+6. If profile.md needs updating (new insight about learning style), update it
+7. Append to `student/log.md`: date, curriculum tag, lesson, phases covered, summary line
+   - Format: `- YYYY-MM-DD (session N): [<curriculum-name>] <lesson> | <phase> | <summary>`

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Silent checkpoint for Socratic tutor sessions.
+# Silent checkpoint for tutor sessions.
 # Runs as a Stop hook — captures the last teaching response
 # so state survives Ctrl+C.
 
@@ -13,11 +13,13 @@ CWD=$(echo "$INPUT" | jq -r '.cwd // empty' 2>/dev/null)
 MESSAGE=$(echo "$INPUT" | jq -r '.last_assistant_message // empty' 2>/dev/null)
 [ -z "$MESSAGE" ] && exit 0
 
-LESSON=$(grep -oP '(?<=\*\*Lesson\*\*: ).*' "$CWD/student/index.md" 2>/dev/null || echo "unknown")
-PHASE=$(grep -oP '(?<=\*\*Phase\*\*: ).*' "$CWD/student/index.md" 2>/dev/null || echo "unknown")
+CURRICULUM=$(cat "$CWD/.tutor-active-curriculum" 2>/dev/null || echo "unknown")
+LESSON=$(sed -n "/### $CURRICULUM/,/^### \|^## /{/\*\*Lesson\*\*/p}" "$CWD/student/index.md" 2>/dev/null | grep -oP '(?<=\*\*Lesson\*\*: ).*' || echo "unknown")
+PHASE=$(sed -n "/### $CURRICULUM/,/^### \|^## /{/\*\*Phase\*\*/p}" "$CWD/student/index.md" 2>/dev/null | grep -oP '(?<=\*\*Phase\*\*: ).*' || echo "unknown")
 TIMESTAMP=$(date -Iseconds)
 
 cat > "$CWD/.tutor-state" << EOF
+curriculum: $CURRICULUM
 lesson: $LESSON
 phase: $PHASE
 timestamp: $TIMESTAMP

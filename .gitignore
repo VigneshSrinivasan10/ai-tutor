@@ -1,5 +1,6 @@
 .tutor-session-active
 .tutor-state
+.tutor-active-curriculum
 .claude/settings.local.json
 
 # Session-specific content (generated per user)

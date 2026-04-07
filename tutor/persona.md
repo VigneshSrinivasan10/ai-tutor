@@ -1,1 +1,1 @@
-personas/socratic.md
+personas/coach.md
